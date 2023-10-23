@@ -8,16 +8,16 @@ import (
 	"github.com/whatsauth/watoken"
 )
 
-func GCFHandler(MONGOCONNSTRINGENV, dbname, collectionname string) string {
-	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
+func GCFHandler(MONGODATA, dbname, collectionname string) string {
+	mconn := SetConnection(MONGODATA, dbname)
 	datagedung := GetAllBangunanLineString(mconn, collectionname)
 	return GCFReturnStruct(datagedung)
 }
 
-func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionname string, r *http.Request) string {
+func GCFPostHandler(PASETOPRIV, MONGODATA, dbname, collectionname string, r *http.Request) string {
 	var Response Credential
 	Response.Status = false
-	mconn := SetConnection(MONGOCONNSTRINGENV, dbname)
+	mconn := SetConnection(MONGODATA, dbname)
 	var datauser User
 	err := json.NewDecoder(r.Body).Decode(&datauser)
 	if err != nil {
@@ -25,7 +25,7 @@ func GCFPostHandler(PASETOPRIVATEKEYENV, MONGOCONNSTRINGENV, dbname, collectionn
 	} else {
 		if IsPasswordValid(mconn, collectionname, datauser) {
 			Response.Status = true
-			tokenstring, err := watoken.Encode(datauser.Username, os.Getenv(PASETOPRIVATEKEYENV))
+			tokenstring, err := watoken.Encode(datauser.Username, os.Getenv(PASETOPRIV))
 			if err != nil {
 				Response.Message = "Token Encode Fail : " + err.Error()
 			} else {
