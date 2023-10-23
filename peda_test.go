@@ -40,7 +40,7 @@ func TestHashFunction(t *testing.T) {
 	userdata.Password = "12345"
 
 	filter := bson.M{"username": userdata.Username}
-	res := atdb.GetOneDoc[User](mconn, "user", filter)
+	res := atdb.GetOneDoc[User](mconn, "userList", filter)
 	fmt.Println("Mongo User Result: ", res)
 	hash, _ := HashPassword(userdata.Password)
 	fmt.Println("Hash Password : ", hash)
@@ -55,6 +55,6 @@ func TestIsPasswordValid(t *testing.T) {
 	userdata.Username = "admin"
 	userdata.Password = "12345"
 
-	anu := IsPasswordValid(mconn, "user", userdata)
+	anu := IsPasswordValid(mconn, "userList", userdata)
 	fmt.Println(anu)
 }
