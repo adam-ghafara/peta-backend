@@ -10,13 +10,13 @@ import (
 )
 
 func TestUpdateGetData(t *testing.T) {
-	mconn := SetConnection("MONGOULBI", "petapedia")
-	datagedung := GetAllBangunanLineString(mconn, "petapedia")
+	mconn := SetConnection("MONGODATA", "geojsonList")
+	datagedung := GetAllBangunanLineString(mconn, "geojsonList")
 	fmt.Println(datagedung)
 }
 
 func TestGeneratePasswordHash(t *testing.T) {
-	password := "secret"
+	password := "12345"
 	hash, _ := HashPassword(password) // ignore error for the sake of simplicity
 
 	fmt.Println("Password:", password)
@@ -52,8 +52,8 @@ func TestHashFunction(t *testing.T) {
 func TestIsPasswordValid(t *testing.T) {
 	mconn := SetConnection("MONGODATA", "geojsonlist")
 	var userdata User
-	userdata.Username = "petped"
-	userdata.Password = "secret"
+	userdata.Username = "admin"
+	userdata.Password = "12345"
 
 	anu := IsPasswordValid(mconn, "user", userdata)
 	fmt.Println(anu)
